@@ -1,0 +1,10 @@
+services:
+  app:
+    entrypoint:
+    - sleep
+    - infinity
+    build:
+      context: .
+      target: development
+    image: aifinal
+    init: true
