@@ -2,9 +2,7 @@
 Simulated Authentication Function
 """
 
-from time import sleep
-
-PASSWORD = "12345678"
+PASSWORD = "0123456789"
 
 
 def validate(password):
