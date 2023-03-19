@@ -2,7 +2,7 @@
 Simulated Authentication Function
 """
 
-PASSWORD = "0123456789"
+PASSWORD = "5555555555"
 
 
 def validate(password):
