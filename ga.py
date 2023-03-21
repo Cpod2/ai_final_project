@@ -5,6 +5,8 @@ on a weak password validation method
 
 import argparse
 import random
+import statistics
+import string
 import time
 from typing import List
 
@@ -15,6 +17,7 @@ from auth import validate
 
 def parse_args():
     """Parse command line arguments"""
+    # pylint: disable=duplicate-code
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-p",
@@ -60,22 +63,17 @@ def parse_args():
     return parser.parse_args()
 
 
-POPULATION_SIZE = 100
-NUMBER_ITERATIONS = 10000
-MUTATION_PCT = 0.5
-BRAKE_ON_SOLUTION = False
-OUTPUT = "plot"
-
-
 def create_population(population_size: int) -> List[str]:
     """
     Returns a population of members.
-    Members are strings of 8 digits.
-    Allowed digits are 1 to 8.
+    Members are strings of 10 characters.
+    Allowed digits are 0 to 9.
     The string encodes a password
     candidate.
     """
-    return ["".join(random.choices("12345678", k=8)) for _ in range(population_size)]
+    return [
+        "".join(random.choices(string.digits, k=10)) for _ in range(population_size)
+    ]
 
 
 def calculate_fitness(member: str) -> int:
@@ -89,15 +87,15 @@ def calculate_fitness(member: str) -> int:
     A higher average number means our candidate
     is close to the password.
     """
-    accumulator = 0
     iterations = 10
+    results = []
     for _ in range(iterations):
         start = time.time_ns()
         validate(member)
         end = time.time_ns()
-        accumulator += end - start
+        results.append(end - start)
 
-    return accumulator / iterations
+    return statistics.median(results)
 
 
 def select_parents(population: List[str]) -> List[str]:
@@ -152,7 +150,7 @@ def do_mutation(member: str, pct: float = 0.8) -> str:
     should_mutate = random.random() > (1 - pct)
     if should_mutate:
         index = random.randint(0, len(member) - 1)
-        target = random.choices("12345678", k=1)[0]
+        target = random.choices(string.digits, k=1)[0]
         temp = list(member)
         temp[index] = target
         member = "".join(temp)
@@ -160,7 +158,7 @@ def do_mutation(member: str, pct: float = 0.8) -> str:
     return member
 
 
-def main():
+def main(args):
     """
     Main Function.
 
@@ -171,7 +169,7 @@ def main():
     generation is created based on crossover and
     mutations operations.
     """
-    population = create_population(POPULATION_SIZE)
+    population = create_population(args["POPULATION_SIZE"])
     solution = None
     average = []
     best = []
@@ -181,14 +179,15 @@ def main():
         print(f"Member {member} Fitness {calculate_fitness(member)}")
     print("")
 
-    for _ in range(NUMBER_ITERATIONS):
+    for _ in range(args["NUMBER_ITERATIONS"]):
         # Check if any of the candidates in the next
         # generation is a solution
         for _, candidate in enumerate(population):
             if validate(candidate):
                 solution = candidate
-                if BRAKE_ON_SOLUTION:
-                    break
+
+        if solution and args["BRAKE_ON_SOLUTION"]:
+            break
 
         parents, scores = select_parents(population)
         average.append(sum(scores) / len(scores))
@@ -198,13 +197,11 @@ def main():
         for i in range(0, len(parents), 2):
             parent1 = parents[i]
             parent2 = parents[i + 1]
-            score1 = scores[i]
-            score2 = scores[i + 1]
             offspring1 = do_crossover(parent1=parent1, parent2=parent2)
-            offspring1 = do_mutation(offspring1, MUTATION_PCT)
+            offspring1 = do_mutation(offspring1, args["MUTATION_PCT"])
             next_generation.append(offspring1)
             offspring2 = do_crossover(parent1=parent2, parent2=parent1)
-            offspring2 = do_mutation(offspring2, MUTATION_PCT)
+            offspring2 = do_mutation(offspring2, args["MUTATION_PCT"])
             next_generation.append(offspring2)
 
         population = next_generation
@@ -224,16 +221,19 @@ def main():
     plt.title("Fitness Over Population Generation")
     plt.xlabel("Population Generation")
     plt.ylabel("Fitness")
-    plt.savefig(OUTPUT)
+    plt.savefig(args["OUTPUT"])
     plt.show(block=True)
 
 
 if __name__ == "__main__":
-    args = parse_args()
-    POPULATION_SIZE = args.POPULATION_SIZE
-    NUMBER_ITERATIONS = args.NUMBER_ITERATIONS
-    MUTATION_PCT = args.MUTATION_PCT
-    BRAKE_ON_SOLUTION = args.BRAKE_ON_SOLUTION
-    OUTPUT = args.OUTPUT
+    cli_args = parse_args()
 
-    main()
+    main(
+        {
+            "POPULATION_SIZE": cli_args.POPULATION_SIZE,
+            "NUMBER_ITERATIONS": cli_args.NUMBER_ITERATIONS,
+            "MUTATION_PCT": cli_args.MUTATION_PCT,
+            "BRAKE_ON_SOLUTION": cli_args.BRAKE_ON_SOLUTION,
+            "OUTPUT": cli_args.OUTPUT,
+        }
+    )
