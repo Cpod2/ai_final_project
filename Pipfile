@@ -15,6 +15,7 @@ pyupgrade = "*"
 doit = "*"
 pytest = "*"
 mdformat = "*"
+nbqa = "*"
 
 [requires]
 python_version = "3.11"
