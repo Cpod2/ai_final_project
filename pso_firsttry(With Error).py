@@ -15,7 +15,7 @@ from matplotlib import pyplot as plt
 from auth import validate
 
 
-def calculate_fitness(member: int) -> int:
+def calculate_fitness(member: str) -> int:
     """
     Returns a member fitness score
     The fitness score is calculated based on
@@ -26,7 +26,7 @@ def calculate_fitness(member: int) -> int:
     A higher average number means our candidate
     is close to the password.
     """
-    member = str(member)
+#    member = str(member)
     accumulator = 0
     iterations = 10
     for _ in range(iterations):
@@ -39,9 +39,9 @@ def calculate_fitness(member: int) -> int:
 
 
 # Constants
-MAX_ITERATIONS = 100000 # need to change
-POPULATION_SIZE = 10000 # need to change
-PASSWORD_LENGTH = len("12345678")
+MAX_ITERATIONS = 10000 # need to change
+POPULATION_SIZE = 200 # need to change
+PASSWORD_LENGTH = 10
 
 # PSO parameters
 c1 = 2
@@ -55,19 +55,20 @@ gbest_fitness = None
 
 class Particle:
     def __init__(self):
-        self.position = [0]*9999    #need to change
-        self.velocity = [0]*9999    #need to change
-        self.fitness = None
-        self.pbest = [0]*9999   #need to change
+        self.position = [0]*10    #need to change
+        self.velocity = [0]*10   #need to change
+        self.fitness = 0
+        self.pbest = [0]*10   #need to change
         self.pbest_fitness = None
 
         for i in range(PASSWORD_LENGTH):
-            self.position.append(random.randint(0, 255))
+            self.position.append(random.randint(0, 9))
             self.velocity.append(random.uniform(-1, 1))
 
     def evaluate_fitness(self):
         password = "".join(chr(c) for c in self.position)
         self.fitness = calculate_fitness(password)
+        print(self.position,'+',password,':',self.fitness)
 
         if self.fitness:
             self.pbest = self.position[:]
@@ -123,7 +124,7 @@ def pso():
         return None
 
 # Test PSO algorithm
-target_value = "12345678"
+target_value = "5555555555"
 gbest = None
 gbest_fitness = None
 password = pso()
