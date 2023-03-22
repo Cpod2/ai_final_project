@@ -14,11 +14,40 @@ import statistics
 
 from matplotlib import pyplot as plt
 
-from auth import validate
 
-""""
+
+
+PASSWORD = "5555555555"
+
+
+def validate(password):
+    """
+    This method receives an string as a parameter,
+    compares it to the global PASSWORD constant,
+    and returns True if they match, and False
+    otherwise.
+
+    It is a very bad implementation of a password,
+    validation function, to make it vulnerable to
+    timing attacks.
+    """
+
+    # Return immediately when password length don't match
+    if len(password) != len(PASSWORD):
+        return False
+
+    # Compare password element wise
+    # pylint: disable=consider-using-enumerate
+    for i in range(len(PASSWORD)):
+        if PASSWORD[i] != password[i]:
+            return i
+
+    # If everything is good, then return True
+    return True
+
+
 def calculate_fitness(member: str) -> int:
-    
+    """"
     Returns a member fitness score
     The fitness score is calculated based on
     the average time it takes for the
@@ -27,20 +56,22 @@ def calculate_fitness(member: str) -> int:
 
     A higher average number means our candidate
     is close to the password.
-    
+    """    
 #    member = str(member)
     accumulator = 0
+    total = 0
     iterations = 10
-    for _ in range(iterations):
-        start = time.time_ns()
-        validate(member)
-        end = time.time_ns()
-        accumulator += end - start
-
-    return accumulator 
+ #   for i in range(10):
+        #for _ in range(iterations):
+            #start = time.time()
+    return validate(member)
+            #end = time.time()
+#            accumulator += end - start
+ #       total += accumulator
+ #   return accumulator 
 """
 def calculate_fitness(member: str) -> int:
-    """
+    
     Returns a member fitness score
     The fitness score is calculated based on
     the average time it takes for the
@@ -49,17 +80,18 @@ def calculate_fitness(member: str) -> int:
 
     A higher average number means our candidate
     is close to the password.
-    """
+
     iterations = 10
     results = []
     for _ in range(iterations):
-        start = time.time_ns()
+        start = time.time()
         validate(member)
-        end = time.time_ns()
+        end = time.time()
         results.append(end - start)
 
     return statistics.median(results)
 
+"""""
 # Constants
 MAX_ITERATIONS = 10000 # need to change
 POPULATION_SIZE = 200 # need to change
