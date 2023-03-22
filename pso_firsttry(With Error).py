@@ -55,10 +55,10 @@ gbest_fitness = None
 
 class Particle:
     def __init__(self):
-        self.position = [0]*10    #need to change
-        self.velocity = [0]*10   #need to change
+        self.position = []    #need to change
+        self.velocity = []   #need to change
         self.fitness = 0
-        self.pbest = [0]*10   #need to change
+        self.pbest = []   #need to change
         self.pbest_fitness = None
 
         for i in range(PASSWORD_LENGTH):
@@ -66,7 +66,7 @@ class Particle:
             self.velocity.append(random.uniform(-1, 1))
 
     def evaluate_fitness(self):
-        password = "".join(chr(c) for c in self.position)
+        password = "".join(str(c) for c in self.position)
         self.fitness = calculate_fitness(password)
         print(self.position,'+',password,':',self.fitness)
 
