@@ -39,8 +39,8 @@ def calculate_fitness(member: int) -> int:
 
 
 # Constants
-MAX_ITERATIONS = 1000
-POPULATION_SIZE = 100
+MAX_ITERATIONS = 100000 # need to change
+POPULATION_SIZE = 10000 # need to change
 PASSWORD_LENGTH = len("12345678")
 
 # PSO parameters
@@ -55,10 +55,10 @@ gbest_fitness = None
 
 class Particle:
     def __init__(self):
-        self.position = []
-        self.velocity = []
+        self.position = [0]*9999    #need to change
+        self.velocity = [0]*9999    #need to change
         self.fitness = None
-        self.pbest = []
+        self.pbest = [0]*9999   #need to change
         self.pbest_fitness = None
 
         for i in range(PASSWORD_LENGTH):
@@ -82,7 +82,6 @@ class Particle:
         for i in range(PASSWORD_LENGTH):
             r1 = random.uniform(0, 1)
             r2 = random.uniform(0, 1)
-            print(i)
             self.velocity[i] = w * self.velocity[i] + c1 * r1 * (self.pbest[i] - self.position[i]) + c2 * r2 * (gbest[i] - self.position[i])
 
     def update_position(self):
