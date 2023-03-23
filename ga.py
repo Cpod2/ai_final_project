@@ -218,7 +218,7 @@ def main(args):
     plt.plot(average)
     plt.plot(best)
     plt.legend(["Average Fitness", "Best Fitness"])
-    plt.title("Fitness Over Population Generation")
+    plt.title("Fitness Over Population per Hundred Generation")
     plt.xlabel("Population Generation")
     plt.ylabel("Fitness")
     plt.savefig(args["OUTPUT"])
