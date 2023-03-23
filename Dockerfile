@@ -29,10 +29,10 @@ RUN curl https://pyenv.run | bash \
 RUN curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python
 
 # Set Locale information
-ENV LANG en_US.utf-8
-ENV LC_ALL en_US.utf-8
-RUN echo "LANG=en_US.utf-8" >> /etc/environment \
-    && echo "LC_ALL=en_US.utf-8" >> /etc/environment
+ENV LANG en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+RUN echo "LANG=en_US.UTF-8" >> /etc/environment \
+    && echo "LC_ALL=en_US.UTF-8" >> /etc/environment
 
 # Command
 CMD bash
