@@ -16,15 +16,15 @@ def parse_args():
         help="Algorithm",
         type=str,
         default="ga",
-        dest="ALGORITHM",
+        dest="ALGORITHM"
     )
     parser.add_argument(
         "-t",
         "--trials",
-        help=Trials",
+        help="Trials",
         type=int,
         default=50,
-        dest="TRIALS",
+        dest="TRIALS"
     )
 
     return parser.parse_args()
