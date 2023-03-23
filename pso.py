@@ -174,7 +174,7 @@ def pso(POPULATION_SIZE, NUMBER_ITERATIONS, W, C1, C2):
         if solution:
             break
 
-    return solution, average, best
+    return (solution, average, best)
 
 
 def main(args):
