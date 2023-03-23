@@ -157,12 +157,15 @@ def pso(POPULATION_SIZE, NUMBER_ITERATIONS, W, C1, C2):
             gbest = particle.update_velocity(gbest, W, C1, C2)
             particle.update_position()
             
-        fitnesses = [p.fitness for p in particles]
-        best.append(max(fitnesses))
-        average.append(sum(fitnesses) / len(fitnesses))
+        if iteration % 100 == 0:
+            fitnesses = [p.fitness for p in particles]
+            best.append(max(fitnesses))
+            average.append(sum(fitnesses) / len(fitnesses))
 
+        """
         if iteration % 500 == 0:
             print(f"[{iteration}] {gbest} = {gbest_fitness}")
+        """
 
         for particle in particles:
             password = f"{particle.position}".zfill(PASSWORD_LENGTH)
@@ -173,7 +176,7 @@ def pso(POPULATION_SIZE, NUMBER_ITERATIONS, W, C1, C2):
         if solution:
             break
 
-    return (solution, average, best)
+    return (password, average, best)
 
 
 def main(args):
@@ -190,7 +193,9 @@ def main(args):
     if password is None:
         print("Could not find password.")
     else:
-        print("Password found:", password)
+        print("Solution Found\n")
+        print(f"{password} Fitness {calculate_fitness(password)}")
+        print("")
         
     plt.plot(average)
     plt.plot(best)

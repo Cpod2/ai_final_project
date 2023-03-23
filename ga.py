@@ -174,10 +174,12 @@ def main(args):
     average = []
     best = []
 
+    """
     print("Initial Population\n")
     for _, member in enumerate(population):
         print(f"Member {member} Fitness {calculate_fitness(member)}")
     print("")
+    """
 
     for _ in range(args["NUMBER_ITERATIONS"]):
         # Check if any of the candidates in the next
@@ -190,8 +192,9 @@ def main(args):
             break
 
         parents, scores = select_parents(population)
-        average.append(sum(scores) / len(scores))
-        best.append(max(scores))
+        if _ % 100 == 0:
+            average.append(sum(scores) / len(scores))
+            best.append(max(scores))
         next_generation = []
 
         for i in range(0, len(parents), 2):
@@ -206,14 +209,17 @@ def main(args):
 
         population = next_generation
 
+    
     if solution:
         print("Solution Found\n")
         print(f"Member {solution} Fitness {calculate_fitness(solution)}")
         print("")
 
+    """
     print("Final Population\n")
     for _, member in enumerate(population):
         print(f"Member {member} Fitness {calculate_fitness(member)}")
+    """
 
     plt.plot(average)
     plt.plot(best)
