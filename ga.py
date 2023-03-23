@@ -184,7 +184,7 @@ def main(args):
     for _ in range(args["NUMBER_ITERATIONS"]):
         # Check if any of the candidates in the next
         # generation is a solution
-        for _, candidate in enumerate(population):
+        for i, candidate in enumerate(population):
             if validate(candidate):
                 solution = candidate
 
