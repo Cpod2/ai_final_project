@@ -35,6 +35,27 @@ def parse_args():
         dest="NUMBER_ITERATIONS",
     )
     parser.add_argument(
+        "-w",
+        help="Weight",
+        type=float,
+        default=0.7,
+        dest="W",
+    )
+    parser.add_argument(
+        "-c1",
+        help="C1",
+        type=float,
+        default=1,
+        dest="C1",
+    )
+    parser.add_argument(
+        "-c2",
+        help="C2",
+        type=float,
+        default=1,
+        dest="C2",
+    )
+    parser.add_argument(
         "-o",
         "--output",
         help="Output file for plot",
@@ -89,13 +110,13 @@ class Particle:
             gbest_fitness = self.pbest_fitness
         return gbest, gbest_fitness
 
-    def update_velocity(self, gbest):
+    def update_velocity(self, gbest, w, c1, c2):
         r1 = random.uniform(0, 1)
         r2 = random.uniform(0, 1)
         new_velocity = (
-            W * self.velocity
-            + C1 * r1 * (self.pbest - self.position)
-            + C2 * r2 * (gbest - self.position)
+            w * self.velocity
+            + c1 * r1 * (self.pbest - self.position)
+            + c2 * r2 * (gbest - self.position)
         )
         self.velocity = new_velocity
 
@@ -115,17 +136,10 @@ class Particle:
 # Constants
 PASSWORD_LENGTH = 10
 
-# PSO parameters
-C1 = 2
-C2 = 2
-W = 0.7
-
-
-def pso(POPULATION_SIZE, NUMBER_ITERATIONS):
+def pso(POPULATION_SIZE, NUMBER_ITERATIONS, W, C1, C2):
     # Initialize particles
     particles = [Particle() for _ in range(POPULATION_SIZE)]
 
-    global average, best
     average = []
     best = []
 
@@ -140,7 +154,7 @@ def pso(POPULATION_SIZE, NUMBER_ITERATIONS):
             gbest, gbest_fitness = particle.evaluate_fitness(gbest, gbest_fitness)
 
         for particle in particles:
-            gbest = particle.update_velocity(gbest)
+            gbest = particle.update_velocity(gbest, W, C1, C2)
             particle.update_position()
             
         if iteration % 100 == 0:
@@ -160,14 +174,17 @@ def pso(POPULATION_SIZE, NUMBER_ITERATIONS):
         if solution:
             break
 
-    return solution
+    return solution, average, best
 
 
 def main(args):
     # Test PSO algorithm
-    password = pso(
+    password, average, best = pso(
         POPULATION_SIZE=args["POPULATION_SIZE"],
         NUMBER_ITERATIONS=args["NUMBER_ITERATIONS"],
+        W=args["W"],
+        C1=args["C1"],
+        C2=args["C2"],
     )
 
     # Print results
@@ -193,6 +210,9 @@ if __name__ == "__main__":
         {
             "POPULATION_SIZE": cli_args.POPULATION_SIZE,
             "NUMBER_ITERATIONS": cli_args.NUMBER_ITERATIONS,
+            "W": cli_args.W,
+            "C1": cli_args.C1,
+            "C2": cli_args.C2,
             "OUTPUT": cli_args.OUTPUT,
         }
     )
