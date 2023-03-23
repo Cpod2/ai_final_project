@@ -229,6 +229,11 @@ def main(args):
     plt.ylabel("Fitness")
     plt.savefig(args["OUTPUT"])
     plt.show(block=True)
+    
+    if solution:
+        return 1
+    else:
+        return 0
 
 
 if __name__ == "__main__":

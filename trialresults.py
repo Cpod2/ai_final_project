@@ -33,13 +33,14 @@ def main(args):
 
     algo = args["ALGORITHM"]
     trials = args["TRIALS"]
+    results = []
     times = []
     
     if algo == "ga":
         for i in range(trials):
             start = time.time()
             cli_args = ga.parse_args()
-            ga.main(
+            result = ga.main(
                 {
                     "POPULATION_SIZE": cli_args.POPULATION_SIZE,
                     "NUMBER_ITERATIONS": cli_args.NUMBER_ITERATIONS,
@@ -47,15 +48,16 @@ def main(args):
                     "BRAKE_ON_SOLUTION": cli_args.BRAKE_ON_SOLUTION,
                     "OUTPUT": cli_args.OUTPUT,
                 }
-            )
+            ) 
             end = time.time()
+            results.append(result)
             times.append(end - start)
             
     else: #pso
         for i in range(trials):
             start = time.time()
             cli_args = pso.parse_args()
-            pso.main(
+            result = pso.main(
                 {
                     "POPULATION_SIZE": cli_args.POPULATION_SIZE,
                     "NUMBER_ITERATIONS": cli_args.NUMBER_ITERATIONS,
@@ -66,10 +68,14 @@ def main(args):
                 }
             )
             end = time.time()
+            results.append(result)
             times.append(end - start)
             
     average = sum(times) / trials
-    print(f"average time for {algo} after {trials}: {average}")
+    success_rate = results.count(1) / trials
+    
+    print(f"Average time for {algo} after {trials}: {average}")
+    print(f"Success rate for {algo} after {trials}: {success_rate} %")
     
 
 

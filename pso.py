@@ -205,6 +205,11 @@ def main(args):
     plt.ylabel("Fitness")
     plt.savefig(args["OUTPUT"])
     plt.show(block=True)
+    
+    if password is None:
+        return 0
+    else:
+        return 1
 
 
 if __name__ == "__main__":
