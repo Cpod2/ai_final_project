@@ -9,6 +9,8 @@ import random
 import statistics
 import time
 
+from matplotlib import pyplot as plt
+
 from auth import validate
 
 
@@ -31,6 +33,14 @@ def parse_args():
         type=int,
         default=10000,
         dest="NUMBER_ITERATIONS",
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        help="Output file for plot",
+        type=str,
+        default="plot",
+        dest="OUTPUT",
     )
 
     return parser.parse_args()
@@ -115,6 +125,10 @@ def pso(POPULATION_SIZE, NUMBER_ITERATIONS):
     # Initialize particles
     particles = [Particle() for _ in range(POPULATION_SIZE)]
 
+    global average, best
+    average = []
+    best = []
+
     gbest = particles[0].position
     gbest_fitness = particles[0].fitness
 
@@ -128,6 +142,11 @@ def pso(POPULATION_SIZE, NUMBER_ITERATIONS):
         for particle in particles:
             gbest = particle.update_velocity(gbest)
             particle.update_position()
+            
+        if iteration % 100 == 0:
+            fitnesses = [p.fitness for p in particles]
+            best.append(max(fitnesses))
+            average.append(sum(fitnesses) / len(fitnesses))
 
         if iteration % 500 == 0:
             print(f"[{iteration}] {gbest} = {gbest_fitness}")
@@ -156,6 +175,15 @@ def main(args):
         print("Could not find password.")
     else:
         print("Password found:", password)
+        
+    plt.plot(average)
+    plt.plot(best)
+    plt.legend(["Average Fitness", "Best Fitness"])
+    plt.title("Fitness Over Particle Swarm Movement")
+    plt.xlabel("Swarm Iteration")
+    plt.ylabel("Fitness")
+    plt.savefig(args["OUTPUT"])
+    plt.show(block=True)
 
 
 if __name__ == "__main__":
@@ -165,5 +193,6 @@ if __name__ == "__main__":
         {
             "POPULATION_SIZE": cli_args.POPULATION_SIZE,
             "NUMBER_ITERATIONS": cli_args.NUMBER_ITERATIONS,
+            "OUTPUT": cli_args.OUTPUT,
         }
     )
