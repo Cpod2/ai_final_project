@@ -190,8 +190,9 @@ def main(args):
             break
 
         parents, scores = select_parents(population)
-        average.append(sum(scores) / len(scores))
-        best.append(max(scores))
+        if _ % 100 == 0:
+            average.append(sum(scores) / len(scores))
+            best.append(max(scores))
         next_generation = []
 
         for i in range(0, len(parents), 2):
