@@ -190,9 +190,8 @@ def main(args):
             break
 
         parents, scores = select_parents(population)
-        if _ % 100 == 0:
-            average.append(sum(scores) / len(scores))
-            best.append(max(scores))
+        average.append(sum(scores) / len(scores))
+        best.append(max(scores))
         next_generation = []
 
         for i in range(0, len(parents), 2):
@@ -219,7 +218,7 @@ def main(args):
     plt.plot(average)
     plt.plot(best)
     plt.legend(["Average Fitness", "Best Fitness"])
-    plt.title("Fitness Over Population Generation")
+    plt.title("Fitness Over Population per Hundred Generation")
     plt.xlabel("Population Generation")
     plt.ylabel("Fitness")
     plt.savefig(args["OUTPUT"])
