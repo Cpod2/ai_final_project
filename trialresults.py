@@ -3,7 +3,7 @@ Run trials on ga and pso algorithms, average and tabulate results
 """
 
 import argparse
-from time import time
+import time
 import ga
 import pso
 
