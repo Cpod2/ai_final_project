@@ -18,7 +18,7 @@ RUN apt-get update \
 	python3 \
 	python3-dev \
 	python-is-python3 \
-    matplotlib
+	matplotlib
 
 # Install Pyenv
 RUN curl https://pyenv.run | bash \
