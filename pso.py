@@ -66,7 +66,7 @@ class Particle:
         self.pbest = 0
         self.pbest_fitness = 0
 
-    def evaluate_fitness(self):
+    def evaluate_fitness(self, gbest, gbest_fitness):
         password = f"{self.position}".zfill(PASSWORD_LENGTH)
         self.fitness = calculate_fitness(password)
 
@@ -74,10 +74,10 @@ class Particle:
             self.pbest = copy.deepcopy(self.position)
             self.pbest_fitness = self.fitness
 
-        global gbest, gbest_fitness
         if self.pbest_fitness > gbest_fitness:
             gbest = copy.deepcopy(self.pbest)
             gbest_fitness = self.pbest_fitness
+        return gbest, gbest_fitness
 
     def update_velocity(self, gbest):
         r1 = random.uniform(0, 1)
@@ -88,6 +88,8 @@ class Particle:
             + C2 * r2 * (gbest - self.position)
         )
         self.velocity = new_velocity
+
+        return gbest
 
     def update_position(self):
         self.position = round(self.position + self.velocity)
@@ -113,7 +115,6 @@ def pso(POPULATION_SIZE, NUMBER_ITERATIONS):
     # Initialize particles
     particles = [Particle() for _ in range(POPULATION_SIZE)]
 
-    global gbest, gbest_fitness
     gbest = particles[0].position
     gbest_fitness = particles[0].fitness
 
@@ -122,10 +123,10 @@ def pso(POPULATION_SIZE, NUMBER_ITERATIONS):
     # Run PSO algorithm
     for iteration in range(NUMBER_ITERATIONS):
         for particle in particles:
-            particle.evaluate_fitness()
+            gbest, gbest_fitness = particle.evaluate_fitness(gbest, gbest_fitness)
 
         for particle in particles:
-            particle.update_velocity(gbest)
+            gbest = particle.update_velocity(gbest)
             particle.update_position()
 
         if iteration % 500 == 0:
@@ -144,10 +145,6 @@ def pso(POPULATION_SIZE, NUMBER_ITERATIONS):
 
 
 def main(args):
-    # Global variables
-    gbest = 0
-    gbest_fitness = 0
-
     # Test PSO algorithm
     password = pso(
         POPULATION_SIZE=args["POPULATION_SIZE"],
