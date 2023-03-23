@@ -17,8 +17,7 @@ RUN apt-get update \
 	liblzma-dev \
 	python3 \
 	python3-dev \
-	python-is-python3 \
-	matplotlib
+	python-is-python3
 
 # Install Pyenv
 RUN curl https://pyenv.run | bash \
