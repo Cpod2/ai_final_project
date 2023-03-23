@@ -157,10 +157,9 @@ def pso(POPULATION_SIZE, NUMBER_ITERATIONS, W, C1, C2):
             gbest = particle.update_velocity(gbest, W, C1, C2)
             particle.update_position()
             
-        if iteration % 100 == 0:
-            fitnesses = [p.fitness for p in particles]
-            best.append(max(fitnesses))
-            average.append(sum(fitnesses) / len(fitnesses))
+        fitnesses = [p.fitness for p in particles]
+        best.append(max(fitnesses))
+        average.append(sum(fitnesses) / len(fitnesses))
 
         if iteration % 500 == 0:
             print(f"[{iteration}] {gbest} = {gbest_fitness}")
