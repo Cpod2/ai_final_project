@@ -4,18 +4,17 @@ Timing Attack on a weak password validation method
 """
 
 import argparse
-import copy
 import random
 import time
 import numpy as np 
 from typing import List
 import pyswarm as ps
-import statistics
 
 from matplotlib import pyplot as plt
 
 
 
+<<<<<<< HEAD
 
 PASSWORD = "5555555555"
 
@@ -48,6 +47,10 @@ def validate(password):
 
 def calculate_fitness(member: str) -> int:
     """"
+=======
+def calculate_fitness(member: str) -> int:
+    """
+>>>>>>> parent of 9124dc0 (12:54)
     Returns a member fitness score
     The fitness score is calculated based on
     the average time it takes for the
@@ -56,11 +59,16 @@ def calculate_fitness(member: str) -> int:
 
     A higher average number means our candidate
     is close to the password.
+<<<<<<< HEAD
     """    
+=======
+    """
+>>>>>>> parent of 9124dc0 (12:54)
 #    member = str(member)
     accumulator = 0
     total = 0
     iterations = 10
+<<<<<<< HEAD
  #   for i in range(10):
         #for _ in range(iterations):
             #start = time.time()
@@ -90,6 +98,16 @@ def calculate_fitness(member: str) -> int:
         results.append(end - start)
 
     return statistics.median(results)
+=======
+    for _ in range(iterations):
+        start = time.time_ns()
+        validate(member)
+        end = time.time_ns()
+        accumulator += end - start
+
+    return accumulator / iterations
+
+>>>>>>> parent of 9124dc0 (12:54)
 
 """""
 # Constants
@@ -110,9 +128,9 @@ gbest_fitness = None
 class Particle:
     def __init__(self):
         self.position = []    #need to change
-        self.velocity = []*10   #need to change
+        self.velocity = []   #need to change
         self.fitness = 0
-        self.pbest = [0]*10   #need to change
+        self.pbest = []   #need to change
         self.pbest_fitness = None
 
         for i in range(PASSWORD_LENGTH):
@@ -125,8 +143,7 @@ class Particle:
         print(self.position,'+',password,':',self.fitness)
 
         if self.fitness:
-#            self.pbest = self.position[:]
-            self.pbest = copy.deepcopy(self.position)
+            self.pbest = self.position[:]
             self.pbest_fitness = self.fitness
 
             global gbest, gbest_fitness
@@ -142,7 +159,7 @@ class Particle:
 
     def update_position(self):
         for i in range(PASSWORD_LENGTH):
-            self.position[i] = int(round(self.position[i] + self.velocity[i]))%10
+            self.position[i] = int(round(self.position[i] + self.velocity[i]))
 
             # Ensure position is within valid range (0-255)
             self.position[i] = max(self.position[i], 0)
@@ -182,7 +199,6 @@ def pso():
 target_value = "5555555555"
 gbest = None
 gbest_fitness = None
-print(calculate_fitness("5555555555"))
 password = pso()
 
 # Print results
