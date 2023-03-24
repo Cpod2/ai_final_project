@@ -70,7 +70,7 @@ def main(args):
             times.append(end - start)
             
     average = sum(times) / trials
-    success_rate = results.count(1) / trials
+    success_rate = (results.count(1) / trials) * 100
     
     print(f"Average time for {algo} after {trials}: {average}")
     print(f"Success rate for {algo} after {trials}: {success_rate} %")
