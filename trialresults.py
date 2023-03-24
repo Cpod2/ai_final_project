@@ -45,7 +45,7 @@ def main(args):
                     "NUMBER_ITERATIONS": 10000,
                     "MUTATION_PCT": 0.5,
                     "BRAKE_ON_SOLUTION": True,
-                    "OUTPUT": "ga",
+                    "OUTPUT": "none",
                 }
             ) 
             end = time.time()
@@ -62,7 +62,7 @@ def main(args):
                     "W": 0.7,
                     "C1": 1,
                     "C2": 1,
-                    "OUTPUT": "pso",
+                    "OUTPUT": "none",
                 }
             )
             end = time.time()

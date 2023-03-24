@@ -221,14 +221,15 @@ def main(args):
         print(f"Member {member} Fitness {calculate_fitness(member)}")
     """
 
-    plt.plot(average)
-    plt.plot(best)
-    plt.legend(["Average Fitness", "Best Fitness"])
-    plt.title("Fitness Over Population per Hundred Generation")
-    plt.xlabel("Population Generation")
-    plt.ylabel("Fitness")
-    plt.savefig(args["OUTPUT"])
-    plt.show(block=True)
+    if args["OUTPUT"] != "none":
+        plt.plot(average)
+        plt.plot(best)
+        plt.legend(["Average Fitness", "Best Fitness"])
+        plt.title("Fitness Over Population per Hundred Generation")
+        plt.xlabel("Population Generation")
+        plt.ylabel("Fitness")
+        plt.savefig(args["OUTPUT"])
+        plt.show(block=True)
     
     if solution:
         return 1

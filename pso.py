@@ -196,15 +196,16 @@ def main(args):
         print("Solution Found\n")
         print(f"{password} Fitness {calculate_fitness(password)}")
         print("")
-        
-    plt.plot(average)
-    plt.plot(best)
-    plt.legend(["Average Fitness", "Best Fitness"])
-    plt.title("Fitness Over Particle Swarm Movement")
-    plt.xlabel("Swarm Iteration")
-    plt.ylabel("Fitness")
-    plt.savefig(args["OUTPUT"])
-    plt.show(block=True)
+    
+    if args["OUTPUT"] != "none": 
+        plt.plot(average)
+        plt.plot(best)
+        plt.legend(["Average Fitness", "Best Fitness"])
+        plt.title("Fitness Over Particle Swarm Movement")
+        plt.xlabel("Swarm Iteration")
+        plt.ylabel("Fitness")
+        plt.savefig(args["OUTPUT"])
+        plt.show(block=True)
     
     if password is None:
         return 0
