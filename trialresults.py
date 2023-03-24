@@ -1,5 +1,5 @@
 """
-Run trials on ga and pso algorithms, average and tabulate results
+Run trials on ga and pso algorithms, report on successes and average times
 """
 
 import argparse
@@ -38,6 +38,7 @@ def main(args):
     
     if algo == "ga":
         for i in range(trials):
+            print(f"--- Trial {i+1} ---")
             start = time.time()
             result = genetic_algorithm(
                 {
@@ -55,6 +56,7 @@ def main(args):
             
     else: #pso
         for i in range(trials):
+            print(f"--- Trial {i+1} ---")
             start = time.time()
             result = particle_swarm_optimization(
                 {
