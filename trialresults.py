@@ -16,7 +16,7 @@ def parse_args():
         help="Algorithm",
         type=str,
         default="ga",
-        dest="ALGORITHM"
+        dest="ALGORITHM",
     )
     parser.add_argument(
         "-t",
@@ -24,7 +24,7 @@ def parse_args():
         help="Trials",
         type=int,
         default=50,
-        dest="TRIALS"
+        dest="TRIALS",
     )
 
     return parser.parse_args()
@@ -80,11 +80,11 @@ def main(args):
 
 
 if __name__ == "__main__":
-    cli_args = pso.parse_args()
+    cli_args = parse_args()
     
     main(
         {
             "ALGORITHM": cli_args.ALGORITHM,
-            "TRIALS": cli_args.TRIALS
+            "TRIALS": cli_args.TRIALS,
         }
     )
