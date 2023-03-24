@@ -4,8 +4,8 @@ Run trials on ga and pso algorithms, average and tabulate results
 
 import argparse
 import time
-import ga
-import pso
+from ga import main as genetic_algorithm
+from pso import main as particle_swarm_optimization
 
 def parse_args():
     """Parse command line arguments"""
@@ -39,14 +39,13 @@ def main(args):
     if algo == "ga":
         for i in range(trials):
             start = time.time()
-            cli_args = ga.parse_args()
-            result = ga.main(
+            result = genetic_algorithm(
                 {
-                    "POPULATION_SIZE": cli_args.POPULATION_SIZE,
-                    "NUMBER_ITERATIONS": cli_args.NUMBER_ITERATIONS,
-                    "MUTATION_PCT": cli_args.MUTATION_PCT,
-                    "BRAKE_ON_SOLUTION": cli_args.BRAKE_ON_SOLUTION,
-                    "OUTPUT": cli_args.OUTPUT,
+                    "POPULATION_SIZE": 100,
+                    "NUMBER_ITERATIONS": 10000,
+                    "MUTATION_PCT": 0.5,
+                    "BRAKE_ON_SOLUTION": True,
+                    "OUTPUT": "ga",
                 }
             ) 
             end = time.time()
@@ -56,15 +55,14 @@ def main(args):
     else: #pso
         for i in range(trials):
             start = time.time()
-            cli_args = pso.parse_args()
-            result = pso.main(
+            result = particle_swarm_optimization(
                 {
-                    "POPULATION_SIZE": cli_args.POPULATION_SIZE,
-                    "NUMBER_ITERATIONS": cli_args.NUMBER_ITERATIONS,
-                    "W": cli_args.W,
-                    "C1": cli_args.C1,
-                    "C2": cli_args.C2,
-                    "OUTPUT": cli_args.OUTPUT,
+                    "POPULATION_SIZE": 100,
+                    "NUMBER_ITERATIONS": 10000,
+                    "W": 0.7,
+                    "C1": 1,
+                    "C2": 1,
+                    "OUTPUT": "pso",
                 }
             )
             end = time.time()
