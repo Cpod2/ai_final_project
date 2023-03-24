@@ -50,7 +50,8 @@ def main(args):
             ) 
             end = time.time()
             results.append(result)
-            times.append(end - start)
+            if result == 1:
+                times.append(end - start)
             
     else: #pso
         for i in range(trials):
@@ -67,9 +68,10 @@ def main(args):
             )
             end = time.time()
             results.append(result)
-            times.append(end - start)
+            if result == 1:
+                times.append(end - start)
             
-    average = sum(times) / trials
+    average = sum(times) / len(times)
     success_rate = (results.count(1) / trials) * 100
     
     print(f"Average time for {algo} after {trials}: {average}")
