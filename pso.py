@@ -157,7 +157,7 @@ def pso(POPULATION_SIZE, NUMBER_ITERATIONS, W, C1, C2):
             gbest = particle.update_velocity(gbest, W, C1, C2)
             particle.update_position()
             
-        if iteration % 100 == 0:
+        if iteration % 10 == 0:
             fitnesses = [p.fitness for p in particles]
             best.append(max(fitnesses))
             average.append(sum(fitnesses) / len(fitnesses))
@@ -196,7 +196,7 @@ def main(args):
         plt.plot(average)
         plt.plot(best)
         plt.legend(["Average Fitness", "Best Fitness"])
-        plt.title("Fitness Over Particle Swarm Movement")
+        plt.title("Fitness Over Particle Swarm Movement per Ten Iteration")
         plt.xlabel("Swarm Iteration")
         plt.ylabel("Fitness")
         plt.savefig(args["OUTPUT"])
