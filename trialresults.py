@@ -76,7 +76,7 @@ def main(args):
     average = sum(times) / len(times)
     success_rate = (results.count(1) / trials) * 100
     
-    print(f"Average time for {algo} after {trials}: {average}")
+    print(f"Average time for {algo} after {trials}: {average} seconds")
     print(f"Success rate for {algo} after {trials}: {success_rate} %")
     
 

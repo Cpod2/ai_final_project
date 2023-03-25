@@ -157,15 +157,10 @@ def pso(POPULATION_SIZE, NUMBER_ITERATIONS, W, C1, C2):
             gbest = particle.update_velocity(gbest, W, C1, C2)
             particle.update_position()
             
-        if iteration % 100 == 0:
+        if iteration % 10 == 0:
             fitnesses = [p.fitness for p in particles]
             best.append(max(fitnesses))
             average.append(sum(fitnesses) / len(fitnesses))
-
-        """
-        if iteration % 500 == 0:
-            print(f"[{iteration}] {gbest} = {gbest_fitness}")
-        """
 
         for particle in particles:
             password = f"{particle.position}".zfill(PASSWORD_LENGTH)
@@ -181,33 +176,33 @@ def pso(POPULATION_SIZE, NUMBER_ITERATIONS, W, C1, C2):
 
 def main(args):
     # Test PSO algorithm
-    password, average, best = pso(
+    solution, average, best = pso(
         POPULATION_SIZE=args["POPULATION_SIZE"],
         NUMBER_ITERATIONS=args["NUMBER_ITERATIONS"],
         W=args["W"],
         C1=args["C1"],
         C2=args["C2"],
     )
-
-    # Print results
-    if password is None:
-        print("Could not find password.")
-    else:
-        print("Solution Found\n")
-        print(f"{password} Fitness {calculate_fitness(password)}")
-        print("")
     
-    if args["OUTPUT"] != "none": 
+    if args["OUTPUT"] != "none":
+        # Print results
+        if solution is None:
+            print("Could not find password.")
+        else:
+            print("Solution Found\n")
+            print(f"{solution} Fitness {calculate_fitness(solution)}")
+            print("")
+         
         plt.plot(average)
         plt.plot(best)
         plt.legend(["Average Fitness", "Best Fitness"])
-        plt.title("Fitness Over Particle Swarm Movement")
+        plt.title("Fitness Over Particle Swarm Movement per Ten Iteration")
         plt.xlabel("Swarm Iteration")
         plt.ylabel("Fitness")
         plt.savefig(args["OUTPUT"])
         plt.show(block=True)
     
-    if password is None:
+    if solution is None:
         return 0
     else:
         return 1

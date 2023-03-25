@@ -174,13 +174,6 @@ def main(args):
     average = []
     best = []
 
-    """
-    print("Initial Population\n")
-    for _, member in enumerate(population):
-        print(f"Member {member} Fitness {calculate_fitness(member)}")
-    print("")
-    """
-
     for _ in range(args["NUMBER_ITERATIONS"]):
         # Check if any of the candidates in the next
         # generation is a solution
@@ -209,19 +202,15 @@ def main(args):
 
         population = next_generation
 
-    
-    if solution:
-        print("Solution Found\n")
-        print(f"Member {solution} Fitness {calculate_fitness(solution)}")
-        print("")
-
-    """
-    print("Final Population\n")
-    for _, member in enumerate(population):
-        print(f"Member {member} Fitness {calculate_fitness(member)}")
-    """
-
     if args["OUTPUT"] != "none":
+        # Print results
+        if solution is None:
+            print("Could not find password.")
+        else:
+            print("Solution Found\n")
+            print(f"{solution} Fitness {calculate_fitness(solution)}")
+            print("")
+        
         plt.plot(average)
         plt.plot(best)
         plt.legend(["Average Fitness", "Best Fitness"])
