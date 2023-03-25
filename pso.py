@@ -136,6 +136,7 @@ class Particle:
 # Constants
 PASSWORD_LENGTH = 10
 
+
 def pso(POPULATION_SIZE, NUMBER_ITERATIONS, W, C1, C2):
     # Initialize particles
     particles = [Particle() for _ in range(POPULATION_SIZE)]
@@ -156,7 +157,7 @@ def pso(POPULATION_SIZE, NUMBER_ITERATIONS, W, C1, C2):
         for particle in particles:
             gbest = particle.update_velocity(gbest, W, C1, C2)
             particle.update_position()
-            
+
         if iteration % 10 == 0:
             fitnesses = [p.fitness for p in particles]
             best.append(max(fitnesses))
@@ -183,7 +184,7 @@ def main(args):
         C1=args["C1"],
         C2=args["C2"],
     )
-    
+
     if args["OUTPUT"] != "none":
         # Print results
         if solution is None:
@@ -192,7 +193,7 @@ def main(args):
             print("Solution Found\n")
             print(f"{solution} Fitness {calculate_fitness(solution)}")
             print("")
-         
+
         plt.plot(average)
         plt.plot(best)
         plt.legend(["Average Fitness", "Best Fitness"])
@@ -201,7 +202,7 @@ def main(args):
         plt.ylabel("Fitness")
         plt.savefig(args["OUTPUT"])
         plt.show(block=True)
-    
+
     if solution is None:
         return 0
     else:

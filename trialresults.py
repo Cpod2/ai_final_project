@@ -4,8 +4,10 @@ Run trials on ga and pso algorithms, report on successes and average times
 
 import argparse
 import time
+
 from ga import main as genetic_algorithm
 from pso import main as particle_swarm_optimization
+
 
 def parse_args():
     """Parse command line arguments"""
@@ -28,14 +30,14 @@ def parse_args():
     )
 
     return parser.parse_args()
-    
-def main(args):
 
+
+def main(args):
     algo = args["ALGORITHM"]
     trials = args["TRIALS"]
     results = []
     times = []
-    
+
     if algo == "ga":
         for i in range(trials):
             print(f"--- Trial {i+1} ---")
@@ -48,13 +50,13 @@ def main(args):
                     "BRAKE_ON_SOLUTION": True,
                     "OUTPUT": "none",
                 }
-            ) 
+            )
             end = time.time()
             results.append(result)
             if result == 1:
                 times.append(end - start)
-            
-    else: #pso
+
+    else:  # pso
         for i in range(trials):
             print(f"--- Trial {i+1} ---")
             start = time.time()
@@ -72,18 +74,17 @@ def main(args):
             results.append(result)
             if result == 1:
                 times.append(end - start)
-            
+
     average = sum(times) / len(times)
     success_rate = (results.count(1) / trials) * 100
-    
+
     print(f"Average time for {algo} after {trials}: {average} seconds")
     print(f"Success rate for {algo} after {trials}: {success_rate} %")
-    
 
 
 if __name__ == "__main__":
     cli_args = parse_args()
-    
+
     main(
         {
             "ALGORITHM": cli_args.ALGORITHM,

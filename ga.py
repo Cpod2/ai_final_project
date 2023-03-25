@@ -210,7 +210,7 @@ def main(args):
             print("Solution Found\n")
             print(f"{solution} Fitness {calculate_fitness(solution)}")
             print("")
-        
+
         plt.plot(average)
         plt.plot(best)
         plt.legend(["Average Fitness", "Best Fitness"])
@@ -219,7 +219,7 @@ def main(args):
         plt.ylabel("Fitness")
         plt.savefig(args["OUTPUT"])
         plt.show(block=True)
-    
+
     if solution:
         return 1
     else:
